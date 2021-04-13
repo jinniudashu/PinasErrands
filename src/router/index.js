@@ -2,10 +2,17 @@ import { createRouter, createWebHistory } from 'vue-router'
 import store from '@/store'
 // import { auth } from '@/firebase'
 
-import CustomerHome from '../views/CustomerHome.vue'
-import Review from '../views/Review.vue'
-import RiderHome from '../views/RiderHome.vue'
 import Login from '../views/Login.vue'
+import CustomerHome from '../views/CustomerHome.vue'
+import Order from '../views/Order.vue'
+import OrderStatus from '../views/OrderStatus.vue'
+import ItemEdit from '../views/ItemEdit.vue'
+import MapLocation from '../views/MapLocation.vue'
+import RiderLocation from '../views/RiderLocation.vue'
+import Review from '../views/Review.vue'
+import ViewImage from '../views/ViewImage.vue'
+
+import RiderHome from '../views/RiderHome.vue'
 import RiderOrderList from '../views/RiderOrderList.vue'
 import RiderOrderDetails from '../views/RiderOrderDetails.vue'
 import RiderOnTheWay from '../views/RiderOnTheWay.vue'
@@ -37,8 +44,7 @@ const routes = [
   {
     path: '/order/:id',
     name: 'Order',
-    component: () =>
-      import(/* webpackChunkName: "order" */ '../views/Order.vue'),
+    component: Order,
     props: true,
     meta: {
       requiresAuth: true,
@@ -47,8 +53,7 @@ const routes = [
   {
     path: '/itemedit/:id',
     name: 'ItemEdit',
-    component: () =>
-      import(/* webpackChunkName: "itemedit" */ '../views/ItemEdit.vue'),
+    component: ItemEdit,
     props: true,
     meta: {
       requiresAuth: true,
@@ -57,8 +62,7 @@ const routes = [
   {
     path: '/viewimage',
     name: 'ViewImage',
-    component: () =>
-      import(/* webpackChunkName: "itemedit" */ '../views/ViewImage.vue'),
+    component: ViewImage,
     props: true,
     meta: {
       requiresAuth: true,
@@ -67,8 +71,7 @@ const routes = [
   {
     path: '/orderstatus/:id',
     name: 'OrderStatus',
-    component: () =>
-      import(/* webpackChunkName: "orderstatus" */ '../views/OrderStatus.vue'),
+    component: OrderStatus,
     props: true,
     meta: {
       requiresAuth: true,
@@ -77,8 +80,7 @@ const routes = [
   {
     path: '/maplocation',
     name: 'MapLocation',
-    component: () =>
-      import(/* webpackChunkName: "maplocation" */ '../views/MapLocation.vue'),
+    component: MapLocation,
     meta: {
       requiresAuth: true,
     },
@@ -86,10 +88,7 @@ const routes = [
   {
     path: '/riderlocation',
     name: 'RiderLocation',
-    component: () =>
-      import(
-        /* webpackChunkName: "riderlocation" */ '../views/RiderLocation.vue'
-      ),
+    component: RiderLocation,
     meta: {
       requiresAuth: true,
     },
