@@ -1,8 +1,10 @@
 import { createMachine, assign } from 'xstate'
-// import { initApp } from './utils/handleData'
 import { customerMachine } from './customerMachine'
 import { riderMachine } from './riderMachine'
 import { loginMachine } from './loginMachine'
+import { getUserRoleById } from './utils/handleData'
+import { auth } from '../firebase'
+import store from '../store'
 
 const appMachine = createMachine({
   id: 'app',
@@ -14,16 +16,11 @@ const appMachine = createMachine({
     loading: {
       invoke: {
         id: 'initLoading',
-        // Initialize：用户登录状态监听、路由守卫，返回当前用户身份
         src: () => {
           return async (callback) => {
-            // let user = await initApp()
-            let user = null
+            // Initialize：用户登录状态监听、路由守卫，返回当前用户身份
+            let user = await initApp()
             if (user) {
-              console.log('appMachine:', user.role)
-              console.log('appMachine:', user.rider)
-              console.log('appMachine:', user)
-              console.log('appMachine:', user.role === 'rider')
               if (user.role === 'rider') {
                 callback({ type: 'RIDER_IN', user }) //用户身份为骑手，转骑手场景
               } else {
@@ -74,3 +71,24 @@ const appMachine = createMachine({
 })
 
 export default appMachine
+
+// initApp：设置用户登录状态监听，置入全局store.user
+const initApp = async () => {
+  var user = null
+  await auth.onAuthStateChanged(async () => {
+    user = auth.currentUser
+    if (user) {
+      // 如果用户是骑手，为user增加骑手信息
+      let rider = await getUserRoleById(user.uid)
+      if (rider) {
+        user.role = 'rider'
+        user.rider = rider
+      } else {
+        user.role = 'customer'
+      }
+      store.commit('user/setUser', user)
+    }
+  })
+  console.log('initApp:', user)
+  return user
+}

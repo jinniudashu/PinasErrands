@@ -1,8 +1,6 @@
 /* API 目录
 本Data服务包括了数据库服务和全局Store访问服务
 
-1. initApp：设置用户登录状态监听，置入全局store
-
 2. initMyOrders：用uid获取订单集快照后更新Store
 
 3.0 setRiderWordStatus: 设置Rider工作状态
@@ -293,27 +291,6 @@ export const getUserRoleById = async (uid) => {
       console.log('Error getting document:', error)
       return null
     })
-}
-
-// 设置用户登录状态监听，置入全局store.user.user
-export const initApp = async () => {
-  var user = null
-  await auth.onAuthStateChanged(async () => {
-    user = auth.currentUser
-    if (user) {
-      // 如果用户是骑手，为user增加骑手信息
-      let rider = await getUserRoleById(user.uid)
-      if (rider) {
-        user.role = 'rider'
-        user.rider = rider
-      } else {
-        user.role = 'customer'
-      }
-      store.commit('user/setUser', user)
-    }
-  })
-  console.log('initApp:', user)
-  return user
 }
 
 // 用uid获取订单集快照后更新Store.orders
