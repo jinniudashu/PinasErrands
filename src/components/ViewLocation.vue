@@ -6,6 +6,7 @@
 import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { initGetRiderLocation } from '@/modules/utils/handleData'
+import { loader } from '@/modules/utils/handleGoogleMap'
 
 export default {
   props: { targets: Array },
@@ -15,10 +16,10 @@ export default {
     const riderId = store.state.orders.currentOrder.riderId
     var handle, riderMarker
     onMounted(async () => {
-      if (!handle) {
-        handle = initGetRiderLocation(riderId)
-      }
+      if (!handle) handle = initGetRiderLocation(riderId)
       console.log('currentOrder:', store.state.orders.currentOrder)
+
+      await loader.load()
       // 1、创建map对象,以items[0]的坐标为初始坐标
       // eslint-disable-next-line no-undef
       const map = new google.maps.Map(mapview.value, {
@@ -42,27 +43,19 @@ export default {
           let location = store.state.rider.riderLocation.location
           console.log('riderLocation watchEffect', location)
           // 画当前位置和路径
-          if (riderMarker) {
-            riderMarker.setMap(null)
-          }
+          if (riderMarker) riderMarker.setMap(null)
           riderMarker = putMarker(map, location)
         }
       })
     })
 
     onUnmounted(() => {
-      if (handle) {
-        handle()
-        console.log('initGetRiderLocation OFF')
-      }
+      if (handle) handle()
     })
 
     function putMarker(map, location, iconType) {
       let icon = null
-      if (iconType === 'customer') {
-        icon = require('@/assets/pin.png')
-      }
-      console.log('putMarker:', location)
+      if (iconType === 'customer') icon = require('@/assets/pin.png')
       // eslint-disable-next-line no-undef
       let position = new google.maps.LatLng(location?.lat, location?.lng)
       // eslint-disable-next-line no-undef

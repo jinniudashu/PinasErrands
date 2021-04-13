@@ -1,3 +1,12 @@
+import { onMounted, onUnmounted, ref } from 'vue'
+import { Loader } from '@googlemaps/js-api-loader'
+
+export const loader = new Loader({
+  apiKey: process.env.VUE_APP_GOOGLEAPIKEY,
+  libraries: ['places'],
+})
+loader.load()
+
 // 计算两点之间的距离
 // 使用了DistanceMatrixService Promise beta版本，在index.html中声明：‘v=beta’
 export const getDistance = async (start, end) => {
@@ -12,7 +21,7 @@ export const getDistance = async (start, end) => {
     destinations: [final],
     travelMode: 'DRIVING',
   })
-  let distance = result.rows[0].elements[0].distance?.value
+  let distance = result?.rows[0].elements[0].distance?.value
   return distance
 }
 
@@ -38,6 +47,25 @@ export function myLocation() {
   })
 }
 
+// 获取本机坐标
+export const useGeolocation = () => {
+  const coords = ref({ latitude: 0, longitude: 0 })
+  const isSupported = 'navigator' in window && 'geolocation' in navigator
+
+  let watcher = null
+  onMounted(() => {
+    if (isSupported)
+      watcher = navigator.geolocation.watchPosition(
+        (position) => (coords.value = position.coords),
+      )
+  })
+  onUnmounted(() => {
+    if (watcher) navigator.geolocation.clearWatch(watcher)
+  })
+  return { coords, isSupported }
+}
+
+// 画出路径
 export const renderRoutes = async (map, locations) => {
   // eslint-disable-next-line no-undef
   const directionsService = new google.maps.DirectionsService()

@@ -32,7 +32,6 @@
 15. updateRiderStatus: 设置骑手工作状态
 
 */
-
 import { auth, db, serverTimestamp } from '@/firebase'
 import { myLocation } from './handleGoogleMap'
 import store from '@/store'
@@ -322,10 +321,7 @@ export const initRiderOrder = (orderId) => {
       store.commit('orders/setCurrentOrder', order)
       console.log('initRiderOrder ON', order)
       // 订单状态为'completed'时清除监听
-      if (order.status === 'completed') {
-        handle()
-        console.log('initRiderOrder OFF')
-      }
+      if (order.status === 'completed') handle()
       return
     })
   return handle
@@ -372,14 +368,9 @@ export function initRiderStatus(uid) {
       switch (rider.status) {
         case 'idle':
           // 启动订单通知监听
-          if (!handleNotifies) {
-            handleNotifies = initOrderNotifies()
-          }
+          if (!handleNotifies) handleNotifies = initOrderNotifies()
           // 启动位置定时发送
-          if (!handleTimer) {
-            handleTimer = initUpdateRiderLocation(user.uid)
-            console.log('start interval:', handleTimer)
-          }
+          if (!handleTimer) handleTimer = initUpdateRiderLocation(user.uid)
           break
         case 'offDuty':
           // 停止位置定时发送
@@ -395,14 +386,10 @@ export function initRiderStatus(uid) {
           }
           break
         case 'busy':
-          console.log('getCurrentOrder')
           // 启动骑手订单状态监听器
           handleRiderOrder = initRiderOrder(rider.currentOrderId)
           // 启动位置定时发送
-          if (!handleTimer) {
-            handleTimer = initUpdateRiderLocation(user.uid)
-            console.log('start interval:', handleTimer)
-          }
+          if (!handleTimer) handleTimer = initUpdateRiderLocation(user.uid)
           // 清除订单通知监听
           if (handleNotifies) {
             handleNotifies()
@@ -422,12 +409,14 @@ export const initUpdateRiderLocation = (uid) => {
     lat: null,
     lng: null,
   }
-  // var t = 0
   var riderId = uid
   return setInterval(async () => {
     // 获取当前位置
     const location = await myLocation().then((result) => {
-      return { lat: result.latitude, lng: result.longitude }
+      return {
+        lat: result.latitude,
+        lng: result.longitude,
+      }
     })
     // 模拟位置变化
     // t = t + 0.0001

@@ -30,13 +30,7 @@ export default {
     })
 
     watchEffect(() => {
-      console.log(props)
-      if (props.item) {
-        state.location = props.item
-        //   state.location.address = props.item.address
-        //   state.location.lat = props.item.lat
-        //   state.location.lng = props.item.lng
-      }
+      if (props.item) state.location = props.item
     })
 
     return { ...toRefs(state) }

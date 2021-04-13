@@ -1,7 +1,7 @@
 <template>
   <navigation-bar />
   <section
-    ref="mapview"
+    ref="mapDiv"
     class="absolute top-11 right-0 bottom-0 left-0"
   ></section>
   <div class="flex justify-center top-14 z-10 absolute w-full">
@@ -42,11 +42,13 @@
 import { onMounted, reactive, ref, toRefs } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { loader } from '@/modules/utils/handleGoogleMap'
+
 export default {
   setup() {
     const store = useStore()
     const router = useRouter()
-    const mapview = ref(null)
+    const mapDiv = ref(null)
     const autocompleteRefs = ref(null)
     const state = reactive({
       addresses: [],
@@ -55,6 +57,8 @@ export default {
     })
 
     onMounted(async () => {
+      await loader.load()
+
       // 获取系统默认初始位置
       const initLocation = JSON.parse(process.env.VUE_APP_INITLOCATION)
       // 1、获得本机位置，失败则用系统默认初始位置initLocation
@@ -69,7 +73,7 @@ export default {
 
       // 2、创建map对象/geocoder对象/获得初始地址列表
       // eslint-disable-next-line no-undef
-      const map = new google.maps.Map(mapview.value, {
+      const map = new google.maps.Map(mapDiv.value, {
         // eslint-disable-next-line no-undef
         center: new google.maps.LatLng(initLocation.lat, initLocation.lng),
         zoom: 16,
@@ -77,6 +81,7 @@ export default {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: true,
       })
+
       // eslint-disable-next-line no-undef
       const geocoder = new google.maps.Geocoder()
       getAddresses(initLocation)
@@ -187,7 +192,7 @@ export default {
     }
 
     return {
-      mapview,
+      mapDiv,
       ...toRefs(state),
       autocompleteRefs,
       submitLocation,
