@@ -5,22 +5,24 @@ export const loader = new Loader({
   apiKey: process.env.VUE_APP_GOOGLEAPIKEY,
   libraries: ['places'],
 })
-loader.load()
 
 // 计算两点之间的距离
 // 使用了DistanceMatrixService Promise beta版本，在index.html中声明：‘v=beta’
 export const getDistance = async (start, end) => {
+  await loader.load()
   // eslint-disable-next-line no-undef
   const origin = new google.maps.LatLng(start.lat, start.lng)
   // eslint-disable-next-line no-undef
   const final = new google.maps.LatLng(end.lat, end.lng)
   // eslint-disable-next-line no-undef
   const service = new google.maps.DistanceMatrixService()
+  console.log('hi getDistanceMatrix')
   const result = await service.getDistanceMatrix({
     origins: [origin],
     destinations: [final],
     travelMode: 'DRIVING',
   })
+  console.log('distance result:', result)
   let distance = result?.rows[0].elements[0].distance?.value
   return distance
 }
