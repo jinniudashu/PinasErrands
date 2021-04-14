@@ -4,27 +4,30 @@ import { Loader } from '@googlemaps/js-api-loader'
 export const loader = new Loader({
   apiKey: process.env.VUE_APP_GOOGLEAPIKEY,
   libraries: ['places'],
+  language: 'en',
+  version: 'beta',
 })
 
 // 计算两点之间的距离
 // 使用了DistanceMatrixService Promise beta版本，在index.html中声明：‘v=beta’
 export const getDistance = async (start, end) => {
   await loader.load()
+
   // eslint-disable-next-line no-undef
   const origin = new google.maps.LatLng(start.lat, start.lng)
   // eslint-disable-next-line no-undef
   const final = new google.maps.LatLng(end.lat, end.lng)
   // eslint-disable-next-line no-undef
   const service = new google.maps.DistanceMatrixService()
-  console.log('hi getDistanceMatrix')
+  // const result =
   const result = await service.getDistanceMatrix({
     origins: [origin],
     destinations: [final],
     travelMode: 'DRIVING',
   })
-  console.log('distance result:', result)
   let distance = result?.rows[0].elements[0].distance?.value
-  return distance
+  let duration = result?.rows[0].elements[0].duration?.text
+  return { distance: distance, duration: duration }
 }
 
 // 获取本机坐标，如果失败，使用系统默认的初始坐标 ==> 这是一个Promise

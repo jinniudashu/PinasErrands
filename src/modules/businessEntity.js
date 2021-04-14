@@ -38,9 +38,10 @@ export const getDeliveryBills = async (locations, sideTripsCounter) => {
   // 获取距离，累加为s
   let s = 0
   for (let i = 0; i < locations.length - 1; i++) {
-    let d = await getDistance(locations[i], locations[i + 1])
-    s = s + d
+    let { distance } = await getDistance(locations[i], locations[i + 1])
+    s = s + distance
   }
+
   // 总距离公里数向上取整 + 修正系数
   s = Math.ceil(s / 1000) + DISTANCE_CORRECTION_FACTOR
 
