@@ -12,7 +12,6 @@ export const loader = new Loader({
 // 使用了DistanceMatrixService Promise beta版本，在index.html中声明：‘v=beta’
 export const getDistance = async (start, end) => {
   await loader.load()
-
   // eslint-disable-next-line no-undef
   const origin = new google.maps.LatLng(start.lat, start.lng)
   // eslint-disable-next-line no-undef
@@ -27,6 +26,8 @@ export const getDistance = async (start, end) => {
   })
   let distance = result?.rows[0].elements[0].distance?.value
   let duration = result?.rows[0].elements[0].duration?.text
+  console.log('distance:', distance)
+  console.log('duration:', duration)
   return { distance: distance, duration: duration }
 }
 

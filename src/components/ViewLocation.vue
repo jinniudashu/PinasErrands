@@ -15,6 +15,7 @@ export default {
     const mapview = ref(null)
     const riderId = store.state.orders.currentOrder.riderId
     var handle, riderMarker
+
     onMounted(async () => {
       if (!handle) handle = initGetRiderLocation(riderId)
       console.log('currentOrder:', store.state.orders.currentOrder)
@@ -47,6 +48,8 @@ export default {
           riderMarker = putMarker(map, location)
         }
       })
+
+      // 4、画出路径
     })
 
     onUnmounted(() => {

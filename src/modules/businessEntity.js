@@ -41,10 +41,8 @@ export const getDeliveryBills = async (locations, sideTripsCounter) => {
     let { distance } = await getDistance(locations[i], locations[i + 1])
     s = s + distance
   }
-
   // 总距离公里数向上取整 + 修正系数
   s = Math.ceil(s / 1000) + DISTANCE_CORRECTION_FACTOR
-
   // 计算运费：2KM 79P, 3~4KM 99P, 4KM以上15P/KM；
   const deliveryFeeDetail = {
     itemName: CHARGE_ITEMS[0],

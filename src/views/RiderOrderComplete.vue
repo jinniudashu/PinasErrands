@@ -9,7 +9,7 @@
           class="bg-gray-50 py-3 pl-2 mt-3 rounded-xl shadow-lg flex flex-row justify-start space-x-2"
         >
           <span class="font-semibold">ADDRESS:</span>
-          <span class="text-sm"> {{ address }}</span>
+          <span class="text-sm"> {{ theEnd.address }}</span>
         </div>
         <div
           class="bg-gray-50 py-3 pl-2 mt-3 rounded-xl shadow-lg flex flex-row justify-start space-x-2"
@@ -24,7 +24,7 @@
         <div
           class="bg-gray-50 py-3 pl-2 mt-3 rounded-xl shadow-lg flex flex-row justify-start space-x-2"
         >
-          <p class="font-semibold">TIME: {{}}</p>
+          <p class="font-semibold">TIME: {{ time }}</p>
         </div>
       </div>
       <button
@@ -46,12 +46,13 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, watchEffect, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { completeOrder } from '@/modules/utils/handleData'
 import ViewLocation from '../components/ViewLocation.vue'
 import MenuButton from '../components/MenuButton'
+import { getDistance, useGeolocation } from '@/modules/utils/handleGoogleMap'
 
 export default {
   components: { ViewLocation, MenuButton },
@@ -67,15 +68,33 @@ export default {
         return { address, lat, lng }
       }),
     )
-    const address = computed(
-      () => order.value.items[order.value.items.length - 1].location.address,
-    )
+    const theEnd = computed(() => targets.value[targets.value.length - 1])
+    const time = ref(null)
+
+    const { coords } = useGeolocation()
+    const currPos = computed(() => ({
+      lat: coords.value.latitude,
+      lng: coords.value.longitude,
+    }))
+
+    watchEffect(async () => {
+      console.log('rider location', currPos.value)
+      let { duration } = await getDistance(currPos.value, theEnd.value)
+      time.value = duration
+    })
+
     async function onClickCompleted() {
       await completeOrder(order.value.id)
       router.push('/riderhome')
     }
 
-    return { order, address, onClickCompleted, targets }
+    return {
+      order,
+      onClickCompleted,
+      targets,
+      theEnd,
+      time,
+    }
   },
 }
 </script>
