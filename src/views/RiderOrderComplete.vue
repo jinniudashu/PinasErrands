@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { computed, watchEffect, ref } from 'vue'
+import { computed, watchEffect, ref, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { completeOrder } from '@/modules/utils/handleData'
@@ -69,18 +69,26 @@ export default {
       }),
     )
     const theEnd = computed(() => targets.value[targets.value.length - 1])
-    const time = ref(null)
+    const time = ref('Calculating...')
 
     const { coords } = useGeolocation()
     const currPos = computed(() => ({
       lat: coords.value.latitude,
       lng: coords.value.longitude,
     }))
+    var handleTimer
+    onMounted(() => {
+      // 每60秒计算一次时间
+      if (!handleTimer)
+        handleTimer = setInterval(async () => {
+          console.log('rider location', currPos.value)
+          let { duration } = await getDistance(currPos.value, theEnd.value)
+          time.value = duration
+        }, 60000)
+    })
 
-    watchEffect(async () => {
-      console.log('rider location', currPos.value)
-      let { duration } = await getDistance(currPos.value, theEnd.value)
-      time.value = duration
+    onUnmounted(() => {
+      clearInterval(handleTimer)
     })
 
     async function onClickCompleted() {

@@ -17,6 +17,7 @@ export default {
     var handle, riderMarker
 
     onMounted(async () => {
+      console.log('targets:', props.targets)
       if (!handle) handle = initGetRiderLocation(riderId)
       console.log('currentOrder:', store.state.orders.currentOrder)
 
