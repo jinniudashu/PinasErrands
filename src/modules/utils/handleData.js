@@ -363,7 +363,7 @@ export function initRiderStatus(uid) {
       user.role = 'rider'
       user.rider = rider
       store.commit('user/setUser', user)
-      console.log('initRiderStatus: user', store.state.user.user)
+      // console.log('initRiderStatus: user', store.state.user.user)
 
       switch (rider.status) {
         case 'idle':
@@ -402,7 +402,7 @@ export function initRiderStatus(uid) {
   return handleRiderStatus
 }
 
-// rider向数据库定时更新位置信息，每60秒更新一次
+// rider向数据库定时更新位置信息，每30秒更新一次
 export const initUpdateRiderLocation = (uid) => {
   var myDate = new Date()
   var savedLocation = {
@@ -446,7 +446,7 @@ export const initUpdateRiderLocation = (uid) => {
           return false
         })
     }
-  }, 60000)
+  }, 30000)
 }
 
 // 设置骑手位置监听，更新Store.rider

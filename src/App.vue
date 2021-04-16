@@ -24,7 +24,6 @@ export default {
       // 判断是否支持地理位置
       // 初始化用户身份，用户状态，路由到相关页面
       auth.onAuthStateChanged(async (user) => {
-        console.log('hi, this is App：', user)
         store.commit('user/setUser', user)
         let route = ''
         if (user) {
@@ -37,6 +36,8 @@ export default {
             if (rider.status === 'busy') {
               // 获取rider当前执行的订单
               let order = await getOrderById(rider.currentOrderId)
+              store.commit('orders/setCurrentOrder', order)
+              console.log('currentOrder:', store.state.orders.currentOrder)
               switch (order.status) {
                 case 'assigned':
                   route = '/riderontheway'

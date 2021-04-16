@@ -61,9 +61,10 @@ export const useGeolocation = () => {
   let watcher = null
   onMounted(() => {
     if (isSupported)
-      watcher = navigator.geolocation.watchPosition(
-        (position) => (coords.value = position.coords),
-      )
+      watcher = navigator.geolocation.watchPosition((position) => {
+        coords.value = position.coords
+        console.log('useGeolocation:', coords.value)
+      })
   })
   onUnmounted(() => {
     if (watcher) navigator.geolocation.clearWatch(watcher)
@@ -75,25 +76,29 @@ export const useGeolocation = () => {
 export const renderRoutes = async (map, locations) => {
   // eslint-disable-next-line no-undef
   const directionsService = new google.maps.DirectionsService()
-  directionsService.route(
-    {
-      origin: locations[0].origin.address,
-      destination: locations[0].destination.address,
-      travelMode: 'DRIVING',
-    },
-    (response, status) => {
-      if (status === 'OK') {
-        // eslint-disable-next-line no-undef
-        new google.maps.DirectionsRenderer({
-          suppressMarkers: false, //Keep Marker
-          directions: response,
-          map: map,
-          polylineOptions: {
-            // strokeColor: this.$store.state.renderRoutes.color,
-            strokeWeight: 8,
-          },
-        })
-      }
-    },
+  locations.forEach((location) =>
+    directionsService.route(
+      {
+        origin: location.origin,
+        destination: location.destination,
+        travelMode: 'DRIVING',
+      },
+      (response, status) => {
+        if (status === 'OK') {
+          // eslint-disable-next-line no-undef
+          new google.maps.DirectionsRenderer({
+            suppressMarkers: true, //hide Marker
+            directions: response,
+            map: map,
+            polylineOptions: {
+              strokeColor: '#19eb70',
+              strokeWeight: 8,
+            },
+          })
+        } else {
+          console.log('status:', status, locations)
+        }
+      },
+    ),
   )
 }

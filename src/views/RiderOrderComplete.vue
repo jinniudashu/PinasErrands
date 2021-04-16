@@ -9,7 +9,7 @@
           class="bg-gray-50 py-3 pl-2 mt-3 rounded-xl shadow-lg flex flex-row justify-start space-x-2"
         >
           <span class="font-semibold">ADDRESS:</span>
-          <span class="text-sm"> {{ theEnd.address }}</span>
+          <span class="text-sm"> {{ address }}</span>
         </div>
         <div
           class="bg-gray-50 py-3 pl-2 mt-3 rounded-xl shadow-lg flex flex-row justify-start space-x-2"
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { computed, watchEffect, ref, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, toRefs } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { completeOrder } from '@/modules/utils/handleData'
@@ -61,30 +61,50 @@ export default {
     const router = useRouter()
     const order = computed(() => store.state.orders.currentOrder)
     const targets = computed(() =>
-      store.state.orders.currentOrder.items.map((item) => {
-        let lat = item.location.lat
-        let lng = item.location.lng
-        let address = item.location.address
-        return { address, lat, lng }
-      }),
+      order.value.items.map((item) => item.location),
     )
-    const theEnd = computed(() => targets.value[targets.value.length - 1])
-    const time = ref('Calculating...')
+    const state = reactive({
+      // 目的地地址
+      address: targets.value[targets.value.length - 1].address,
+      // 到目的地时间
+      time: 'Calculating...',
+    })
 
     const { coords } = useGeolocation()
     const currPos = computed(() => ({
       lat: coords.value.latitude,
       lng: coords.value.longitude,
     }))
+
     var handleTimer
-    onMounted(() => {
-      // 每60秒计算一次时间
+    onMounted(async () => {
+      // 终点位置
+      let theEnd = targets.value[targets.value.length - 1]
+
+      // 取Rider当前手机位置计算duration
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            let currPos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            }
+            let { duration } = await getDistance(currPos, theEnd)
+            console.log('duration:', duration)
+            state.time = duration
+          },
+          (error) => {
+            console.log('error', error)
+          },
+        )
+      }
+
+      // 每30秒取一次duration
       if (!handleTimer)
         handleTimer = setInterval(async () => {
-          console.log('rider location', currPos.value)
-          let { duration } = await getDistance(currPos.value, theEnd.value)
-          time.value = duration
-        }, 60000)
+          let { duration } = await getDistance(currPos.value, theEnd)
+          state.time = duration
+        }, 30000)
     })
 
     onUnmounted(() => {
@@ -99,9 +119,8 @@ export default {
     return {
       order,
       onClickCompleted,
+      ...toRefs(state),
       targets,
-      theEnd,
-      time,
     }
   },
 }

@@ -6,7 +6,7 @@
 import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { initGetRiderLocation } from '@/modules/utils/handleData'
-import { loader } from '@/modules/utils/handleGoogleMap'
+import { loader, renderRoutes } from '@/modules/utils/handleGoogleMap'
 
 export default {
   props: { targets: Array },
@@ -19,7 +19,6 @@ export default {
     onMounted(async () => {
       console.log('targets:', props.targets)
       if (!handle) handle = initGetRiderLocation(riderId)
-      console.log('currentOrder:', store.state.orders.currentOrder)
 
       await loader.load()
       // 1、创建map对象,以items[0]的坐标为初始坐标
@@ -30,27 +29,42 @@ export default {
           props?.targets[0].lat,
           props?.targets[0].lng,
         ),
-        zoom: 14,
+        zoom: 13,
         // eslint-disable-next-line no-undef
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: true,
       })
 
       // 2、在items[n]位置放置Marker
-      props.targets.forEach((item) => putMarker(map, item, 'customer'))
+      props.targets.forEach((item) => {
+        putMarker(map, item, 'customer')
+      })
+      // 画出路径
+      console.log('porps:', props.targets)
+      let locations = []
+      for (let i = 0; i < props.targets.length - 1; i++) {
+        let location = {
+          origin: { lat: props.targets[i].lat, lng: props.targets[i].lng },
+          destination: {
+            lat: props.targets[i + 1].lat,
+            lng: props.targets[i + 1].lng,
+          },
+        }
+        locations.push(location)
+      }
+      renderRoutes(map, locations)
 
-      // 3、监听并刷新Rider位置
+      // 3、监听并刷新Rider位置和路径
       watchEffect(() => {
         if (store.state.rider.riderLocation?.location) {
           let location = store.state.rider.riderLocation.location
-          console.log('riderLocation watchEffect', location)
-          // 画当前位置和路径
+          // 画当前位置
           if (riderMarker) riderMarker.setMap(null)
           riderMarker = putMarker(map, location)
+        } else {
+          console.log('riderMarker', store.state.rider.riderLocation?.location)
         }
       })
-
-      // 4、画出路径
     })
 
     onUnmounted(() => {
