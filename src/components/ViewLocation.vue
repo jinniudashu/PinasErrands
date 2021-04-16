@@ -17,9 +17,7 @@ export default {
     var handle, riderMarker
 
     onMounted(async () => {
-      console.log('targets:', props.targets)
       if (!handle) handle = initGetRiderLocation(riderId)
-
       await loader.load()
       // 1、创建map对象,以items[0]的坐标为初始坐标
       // eslint-disable-next-line no-undef
