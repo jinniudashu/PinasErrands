@@ -10,14 +10,11 @@
       <img
         class=" cursor-pointer"
         @click="newErrend"
-        src="@/assets/errand.svg"
+        src="@/assets/errand.png"
         alt="Errand"
       />
-      <!-- <svg-icon :name="'errand'" /> -->
-      <img class=" cursor-pointer" src="@/assets/market.svg" alt="Market" />
-      <!-- <svg-icon :name="'market'" /> -->
-      <img class=" cursor-pointer" src="@/assets/food.svg" alt="Food" />
-      <!-- <svg-icon :name="'food'" /> -->
+      <img class=" cursor-pointer" src="@/assets/market.png" alt="Market" />
+      <img class=" cursor-pointer" src="@/assets/food.png" alt="Food" />
     </div>
     <div class="mt-3">
       <order-list :orders="orders" />
