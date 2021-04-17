@@ -25,6 +25,7 @@ export default {
       // 初始化用户身份，用户状态，路由到相关页面
       auth.onAuthStateChanged(async (user) => {
         store.commit('user/setUser', user)
+        console.log('app:', user)
         let route = ''
         if (user) {
           // 如果用户是骑手，为user增加骑手信息

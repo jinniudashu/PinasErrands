@@ -226,12 +226,13 @@
   <svg
     v-else-if="name === 'delivery'"
     width="29"
-    height="27"
-    viewBox="0 0 29 27"
+    height="29"
+    viewBox="0 0 29 29"
     fill="none"
+    preserveAspectRatio="xMidYMid"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="28.4211" height="27" rx="7.10526" fill="#F5FF63" />
+    <rect width="29" height="29" rx="7.10526" fill="#F5FF63" />
     <path
       d="M22.8079 9.38516C22.8079 13.7836 18.6205 20.535 14.9566 25.5789C11.816 21.0659 7.10526 13.7836 7.10526 9.38516C7.10526 4.98669 10.6204 1.42102 14.9566 1.42102C19.2927 1.42102 22.8079 4.98669 22.8079 9.38516Z"
       fill="#DD3A43"

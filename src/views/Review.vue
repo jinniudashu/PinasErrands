@@ -2,11 +2,7 @@
   <div class="bg-gray-100 min-h-screen">
     <div class="mx-6 pt-8">
       <div class="flex flex-col items-center justify-center">
-        <img
-          class="h-24 w-24 rounded-full shadow-md"
-          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-          alt=""
-        />
+        <img class="h-24 w-24 rounded-full shadow-md" :src="avatar" alt="" />
         <div class="mt-2">
           <review-star :alignCenter="true" @reviewed="(n) => (rider = n)">
             <p class="text-lg font-semibold text-center">
@@ -82,6 +78,7 @@ export default {
       comment: null,
     })
     const order = computed(() => store.state.orders.currentOrder)
+    const avatar = computed(() => store.state.user.user.photoURL)
 
     // 提交评价
     const onClickSubmit = async () => {
@@ -92,7 +89,7 @@ export default {
       router.replace('/customerhome')
     }
 
-    return { ...toRefs(state), onClickSubmit }
+    return { ...toRefs(state), onClickSubmit, avatar }
   },
 }
 </script>

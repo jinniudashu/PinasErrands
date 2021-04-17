@@ -17,7 +17,16 @@
           <div
             class="flex flex-row justify-start items-center my-1 pl-1 space-x-1 "
           >
-            <svg-icon :name="index === 0 ? 'pickup' : 'delivery'" />
+            <img
+              class="w-5"
+              :src="
+                index === 0
+                  ? require('@/assets/pickup.png')
+                  : require('@/assets/delivery.png')
+              "
+              alt=""
+            />
+
             <p class="text-sm font-semibold">
               {{ index === 0 ? 'Pick Up Details' : 'Delivery Details' }}
             </p>
