@@ -1,4 +1,7 @@
 <template>
+  <toast v-if="showToast">
+    {{ errMessage }}
+  </toast>
   <div class="bg-yellow-200 min-h-screen pt-6">
     <div class="mx-6">
       <img class="w-40" alt="Pinas Errunds" src="../assets/pinaserrunds.png" />
@@ -37,9 +40,6 @@
             />
           </div>
           <!-- 输入手机校验码 -->
-          <div v-if="!isMatch" class="mt-4 text-sm text-red-500">
-            Doesn't match, please try again
-          </div>
           <div
             class="mt-4 px-2 w-full flex justify-between items-center bg-gray-100 rounded-lg shadow-lg border border-gray-500 focus: border-yellow-400"
           >
@@ -80,19 +80,23 @@
 <script>
 import firebase from '@/firebase'
 import { computed, onMounted, onUnmounted, reactive, toRefs, ref } from 'vue'
+import Toast from '../components/Toast.vue'
+
 export default {
   name: 'login',
+  components: { Toast },
   setup() {
     var handleTimer
     const state = reactive({
       phoneNumber: '',
       verifyCode: '',
-      isMatch: true,
       timer: 60,
+      errMessage: 'This is error message',
     })
     const userPhoneNumber = computed(() => '+63' + state.phoneNumber)
     const inputPhoneNumber = ref(null)
     const inputVerifyCode = ref(null)
+    const showToast = ref(false)
 
     onMounted(() => {
       inputPhoneNumber.value.focus()
@@ -143,6 +147,7 @@ export default {
             .catch((error) => {
               console.log('无效号码', error)
               // 弹出警告：无效号码
+              triggerToast('Invalid phone number')
             })
         })
         .catch((error) => {
@@ -159,9 +164,15 @@ export default {
           console.log('OK, logined!', result.user)
         })
         .catch((error) => {
-          state.isMatch = false
           console.log(error)
+          triggerToast('Invalid verify code')
         })
+    }
+
+    const triggerToast = (errMessage) => {
+      state.errMessage = errMessage
+      showToast.value = true
+      setTimeout(() => (showToast.value = false), 2000)
     }
 
     return {
@@ -170,6 +181,7 @@ export default {
       submitPhoneNumberAuthCode,
       inputPhoneNumber,
       inputVerifyCode,
+      showToast,
     }
   },
 }
