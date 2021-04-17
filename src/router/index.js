@@ -1,23 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '@/store'
-// import { auth } from '@/firebase'
-
 import Login from '../views/Login.vue'
 import CustomerHome from '../views/CustomerHome.vue'
-import Order from '../views/Order.vue'
-import OrderStatus from '../views/OrderStatus.vue'
-import ItemEdit from '../views/ItemEdit.vue'
-import MapLocation from '../views/MapLocation.vue'
-import RiderLocation from '../views/RiderLocation.vue'
-import Review from '../views/Review.vue'
-import ViewImage from '../views/ViewImage.vue'
-
 import RiderHome from '../views/RiderHome.vue'
-import RiderOrderList from '../views/RiderOrderList.vue'
-import RiderOrderDetails from '../views/RiderOrderDetails.vue'
-import RiderOnTheWay from '../views/RiderOnTheWay.vue'
-import RiderConfirmPrice from '../views/RiderConfirmPrice.vue'
-import RiderOrderComplete from '../views/RiderOrderComplete.vue'
 
 const routes = [
   {
@@ -36,7 +21,8 @@ const routes = [
   {
     path: '/review',
     name: 'Review',
-    component: Review,
+    component: () =>
+      import(/* webpackChunkName: "customer" */ '../views/Review.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -44,7 +30,8 @@ const routes = [
   {
     path: '/order/:id',
     name: 'Order',
-    component: Order,
+    component: () =>
+      import(/* webpackChunkName: "customer" */ '../views/Order.vue'),
     props: true,
     meta: {
       requiresAuth: true,
@@ -53,7 +40,8 @@ const routes = [
   {
     path: '/itemedit/:id',
     name: 'ItemEdit',
-    component: ItemEdit,
+    component: () =>
+      import(/* webpackChunkName: "customer" */ '../views/ItemEdit.vue'),
     props: true,
     meta: {
       requiresAuth: true,
@@ -62,7 +50,10 @@ const routes = [
   {
     path: '/viewimage',
     name: 'ViewImage',
-    component: ViewImage,
+    component: () =>
+      import(
+        /* webpackChunkName: "sharecomponents" */ '../views/ViewImage.vue'
+      ),
     props: true,
     meta: {
       requiresAuth: true,
@@ -71,7 +62,8 @@ const routes = [
   {
     path: '/orderstatus/:id',
     name: 'OrderStatus',
-    component: OrderStatus,
+    component: () =>
+      import(/* webpackChunkName: "customer" */ '../views/OrderStatus.vue'),
     props: true,
     meta: {
       requiresAuth: true,
@@ -80,7 +72,8 @@ const routes = [
   {
     path: '/maplocation',
     name: 'MapLocation',
-    component: MapLocation,
+    component: () =>
+      import(/* webpackChunkName: "customer" */ '../views/MapLocation.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -88,7 +81,10 @@ const routes = [
   {
     path: '/riderlocation',
     name: 'RiderLocation',
-    component: RiderLocation,
+    component: () =>
+      import(
+        /* webpackChunkName: "sharecomponents" */ '../views/RiderLocation.vue'
+      ),
     meta: {
       requiresAuth: true,
     },
@@ -104,7 +100,8 @@ const routes = [
   {
     path: '/riderorderlist',
     name: 'riderOrderList',
-    component: RiderOrderList,
+    component: () =>
+      import(/* webpackChunkName: "rider" */ '../views/RiderOrderList.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -112,7 +109,8 @@ const routes = [
   {
     path: '/riderorderdetails',
     name: 'riderOrderDetails',
-    component: RiderOrderDetails,
+    component: () =>
+      import(/* webpackChunkName: "rider" */ '../views/RiderOrderDetails.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -120,7 +118,8 @@ const routes = [
   {
     path: '/riderontheway',
     name: 'riderOnTheWay',
-    component: RiderOnTheWay,
+    component: () =>
+      import(/* webpackChunkName: "rider" */ '../views/RiderOnTheWay.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -128,7 +127,8 @@ const routes = [
   {
     path: '/riderconfirmprice',
     name: 'riderConfirmPrice',
-    component: RiderConfirmPrice,
+    component: () =>
+      import(/* webpackChunkName: "rider" */ '../views/RiderConfirmPrice.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -136,7 +136,8 @@ const routes = [
   {
     path: '/riderordercomplete',
     name: 'riderOrderComplete',
-    component: RiderOrderComplete,
+    component: () =>
+      import(/* webpackChunkName: "rider" */ '../views/RiderOrderComplete.vue'),
     meta: {
       requiresAuth: true,
     },
