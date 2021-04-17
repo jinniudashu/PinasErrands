@@ -42,7 +42,6 @@
 import { onMounted, reactive, ref, toRefs } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { loader } from '@/modules/utils/handleGoogleMap'
 
 export default {
   setup() {
@@ -57,8 +56,6 @@ export default {
     })
 
     onMounted(async () => {
-      await loader.load()
-
       // 获取系统默认初始位置
       const initLocation = JSON.parse(process.env.VUE_APP_INITLOCATION)
       // 1、获得本机位置，失败则用系统默认初始位置initLocation

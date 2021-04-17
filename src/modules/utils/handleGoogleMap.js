@@ -1,17 +1,8 @@
 import { onMounted, onUnmounted, ref } from 'vue'
-import { Loader } from '@googlemaps/js-api-loader'
-
-export const loader = new Loader({
-  apiKey: process.env.VUE_APP_GOOGLEAPIKEY,
-  libraries: ['places'],
-  language: 'en',
-  version: 'beta',
-})
 
 // 计算两点之间的距离
 // 使用了DistanceMatrixService Promise beta版本，在index.html中声明：‘v=beta’
 export const getDistance = async (start, end) => {
-  await loader.load()
   // eslint-disable-next-line no-undef
   const origin = new google.maps.LatLng(start.lat, start.lng)
   // eslint-disable-next-line no-undef

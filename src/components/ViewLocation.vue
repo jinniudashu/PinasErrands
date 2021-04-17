@@ -6,7 +6,7 @@
 import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { initGetRiderLocation } from '@/modules/utils/handleData'
-import { loader, renderRoutes } from '@/modules/utils/handleGoogleMap'
+import { renderRoutes } from '@/modules/utils/handleGoogleMap'
 
 export default {
   props: { targets: Array },
@@ -18,7 +18,7 @@ export default {
 
     onMounted(async () => {
       if (!handle) handle = initGetRiderLocation(riderId)
-      await loader.load()
+
       // 1、创建map对象,以items[0]的坐标为初始坐标
       // eslint-disable-next-line no-undef
       const map = new google.maps.Map(mapview.value, {

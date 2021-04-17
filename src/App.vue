@@ -14,6 +14,15 @@ import {
   getOrderById,
 } from '@/modules/utils/handleData'
 
+import { Loader } from '@googlemaps/js-api-loader'
+
+const loader = new Loader({
+  apiKey: process.env.VUE_APP_GOOGLEAPIKEY,
+  libraries: ['places'],
+  language: 'en',
+  version: 'beta',
+})
+
 export default {
   setup() {
     const store = useStore()
@@ -21,6 +30,9 @@ export default {
     var handleInitRiderStatus, handleInitMyOrders
 
     onMounted(() => {
+      // 调入@googlemaps/js-api-loader
+      loader.load()
+
       // 判断是否支持地理位置
       // 初始化用户身份，用户状态，路由到相关页面
       auth.onAuthStateChanged(async (user) => {
