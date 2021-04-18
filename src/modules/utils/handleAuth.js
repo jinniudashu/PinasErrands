@@ -18,6 +18,7 @@ export const logout = () => {
 // 更新用户Profile信息
 export const updateUserProfile = async (payload) => {
   var user = auth.currentUser
+  console.log('updateUserProfile.payload:', payload)
   return await user
     .updateProfile(payload)
     .then(() => {

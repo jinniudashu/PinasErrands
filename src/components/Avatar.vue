@@ -72,10 +72,10 @@ export default {
         this.newAvatar = true
         if (url) {
           this.src = url
-          let upd = await updateUserProfile({ photo_url: url })
+          let upd = await updateUserProfile({ photoURL: url })
           if (upd) {
             this.$emit('input', url)
-            console.log('change', url)
+            console.log('Avata.changed:', url)
           }
         } else {
           alert('Upload failed, please try again.')
