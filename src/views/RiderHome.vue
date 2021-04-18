@@ -7,11 +7,7 @@
       <menu-button />
 
       <!-- Pinas Logo -->
-      <img
-        class="w-48 "
-        src="@/assets/pinaserrunds-deploy.png"
-        alt="Pinas Errunds"
-      />
+      <img class="w-48 " src="@/assets/pinaslogo.png" alt="Pinas Errunds" />
     </div>
     <!-- Avatar & Reviews & Rides -->
     <div class="flex flex-col items-center justify-center -mt-12">

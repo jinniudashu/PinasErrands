@@ -4,11 +4,7 @@
   </toast>
   <div class="bg-yellow-200 min-h-screen pt-6">
     <div class="mx-6">
-      <img
-        class="w-40"
-        alt="Pinas Errunds"
-        src="../assets/pinaserrunds-deploy.png"
-      />
+      <img class="w-40" alt="Pinas Errunds" src="../assets/pinaslogo.png" />
       <div class="mt-16 mx-8 text-2xl font-semibold">
         Welcome!
       </div>
