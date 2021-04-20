@@ -34,6 +34,7 @@
 <script>
 import { uploadImage, deleteImage } from '@/modules/utils/handleStorage'
 import { updateUserProfile } from '@/modules/utils/handleAuth'
+import { reactive, toRefs, ref } from 'vue'
 
 export default {
   props: {
@@ -41,47 +42,49 @@ export default {
     mode: String,
   },
 
-  data() {
-    return {
-      src: this.defaultSrc,
+  setup(props, { emit }) {
+    const state = reactive({
+      src: props.defaultSrc,
       newAvatar: false,
-    }
-  },
+    })
 
-  methods: {
-    browse() {
-      this.$refs.file.click()
-    },
-    async remove() {
-      let del = await deleteImage(this.src)
+    const file = ref(null)
+
+    function browse() {
+      file.value.click()
+    }
+
+    const remove = async () => {
+      let del = await deleteImage(state.src)
       if (del) {
-        this.newAvatar = false
-        this.src = this.defaultSrc
-        let upd = await updateUserProfile({ photo_url: this.defaultSrc })
+        state.newAvatar = false
+        state.src = null
+        let upd = await updateUserProfile({ photoURL: null })
         if (upd) {
-          this.$emit('input', null)
-          console.log('del ok, us default', this.defaultSrc)
+          emit('input', null)
         }
       } else {
         alert('Delete failed, please try again.')
       }
-    },
-    async change(e) {
+    }
+
+    const change = async (e) => {
       if (e.target.files[0]) {
         let url = await uploadImage(e.target.files[0], 'avatars')
-        this.newAvatar = true
+        state.newAvatar = true
         if (url) {
-          this.src = url
+          state.src = url
           let upd = await updateUserProfile({ photoURL: url })
           if (upd) {
-            this.$emit('input', url)
-            console.log('Avata.changed:', url)
+            emit('input', url)
           }
         } else {
           alert('Upload failed, please try again.')
         }
       }
-    },
+    }
+
+    return { ...toRefs(state), file, browse, remove, change }
   },
 }
 </script>
