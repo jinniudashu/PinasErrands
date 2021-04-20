@@ -14,7 +14,7 @@
       <avatar
         class="w-24 h-24 rounded-full"
         :default-src="avatar"
-        :mode="'edit'"
+        mode="view"
         @input="editAvatar"
       />
 

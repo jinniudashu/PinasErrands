@@ -90,6 +90,15 @@ const routes = [
     },
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () =>
+      import(/* webpackChunkName: "sharecomponents" */ '../views/Profile.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/riderhome',
     name: 'riderHome',
     component: RiderHome,

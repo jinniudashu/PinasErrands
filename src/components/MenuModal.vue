@@ -5,13 +5,24 @@
     ></section>
     <div class="absolute inset-0">
       <div class=" flex h-full">
-        <div class="z-30 bg-yellow-200 w-3/4 p-4 ">
+        <div class="z-30 bg-yellow-200 w-2/3 p-4 ">
           <!-- <div class="cursor-pointer mt-1 right-10">
             <svg-icon :name="'menu'" />
           </div> -->
 
           <div
-            class="mt-10 border-gray-300 border-b-2 p-1 text-sm cursor-pointer"
+            class="mt-10 border-yellow-300 border-b-2 p-1 text-sm cursor-pointer"
+          >
+            Report
+          </div>
+          <div
+            class="mt-2 border-yellow-300 border-b-2 p-1 text-sm cursor-pointer"
+            @click="onClickProfile"
+          >
+            Your Profile
+          </div>
+          <div
+            class="mt-2 border-yellow-300 border-b-2 p-1 text-sm cursor-pointer"
             @click="onClickLogout"
           >
             Logout
@@ -37,7 +48,11 @@ export default {
       router.replace('/login')
     }
 
-    return { onClickLogout }
+    const onClickProfile = () => {
+      router.push('/profile')
+    }
+
+    return { onClickLogout, onClickProfile }
   },
 }
 </script>
