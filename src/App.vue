@@ -17,7 +17,8 @@ import {
 import { Loader } from '@googlemaps/js-api-loader'
 
 const loader = new Loader({
-  apiKey: process.env.VUE_APP_GOOGLEAPIKEY,
+  // apiKey: process.env.VUE_APP_GOOGLEAPIKEY,
+  apiKey: 'AIzaSyDX6fmLJL3ZHIC-doOOD4VaLaWyJ61h7fM',
   libraries: ['places'],
   language: 'en',
   version: 'beta',
