@@ -20,15 +20,19 @@
             <img
               class="w-5"
               :src="
-                index === 0
-                  ? require('@/assets/pickup.png')
-                  : require('@/assets/delivery.png')
+                index === items.length - 1
+                  ? require('@/assets/delivery.png')
+                  : require('@/assets/pickup.png')
               "
               alt=""
             />
 
             <p class="text-sm font-semibold">
-              {{ index === 0 ? 'Pick Up Details' : 'Delivery Details' }}
+              {{
+                index === items.length - 1
+                  ? 'Delivery Details'
+                  : 'Pick Up Details'
+              }}
             </p>
           </div>
           <div

@@ -11,6 +11,13 @@
               <p>Review</p>
             </router-link>
           </div>
+          <div
+            v-if="index === order.items.length - 1"
+            class="flex flex-row justify-start items-center space-x-4 px-2"
+          >
+            <svg-icon :name="'verticalconnection'" />
+            <svg-icon :name="'line'" />
+          </div>
           <div class="flex flex-row justify-between">
             <div
               class="flex flex-row justify-start items-center my-1 space-x-2"
@@ -18,26 +25,19 @@
               <img
                 class="w-5"
                 :src="
-                  index === 0
-                    ? require('@/assets/pickup.png')
-                    : require('@/assets/delivery.png')
+                  index === order.items.length - 1
+                    ? require('@/assets/delivery.png')
+                    : require('@/assets/pickup.png')
                 "
                 alt=""
               />
               <p class="text-xs font-semibold whitespace-nowrap">
-                {{ index === 0 ? 'Pick Up' : 'Delivery' }}
+                {{ index === order.items.length - 1 ? 'Delivery' : 'Pick Up' }}
               </p>
               <p class="text-xs truncate">
                 {{ item.location.address }}
               </p>
             </div>
-          </div>
-          <div
-            v-if="index === 0"
-            class="flex flex-row justify-start items-center space-x-4 px-2"
-          >
-            <svg-icon :name="'verticalconnection'" />
-            <svg-icon :name="'line'" />
           </div>
         </div>
       </router-link>

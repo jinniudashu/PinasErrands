@@ -25,7 +25,9 @@
     </div>
     <div class="text-gray-800 mt-4">
       <label class="text-sm font-semibold" for="contactPhone"
-        >Mobile Number (Optional)</label
+        >Mobile Number ({{
+          isDeliveryLocation ? 'Required' : 'Optional'
+        }})</label
       >
       <div
         class="flex flex-row justify-between items-center background-gray-100 rounded-lg shadow-md px-2 py-1 w-full border-gray-800 border-2"
@@ -45,7 +47,9 @@
 
     <!-- Request -->
     <div class="text-gray-800 mt-4">
-      <label class="text-sm font-semibold" for="request">Errand Request</label>
+      <label class="text-sm font-semibold" for="request">{{
+        isDeliveryLocation ? 'Landmark' : 'Errand Request'
+      }}</label>
       <textarea
         class="background-gray-100 rounded-lg shadow-md px-2 py-1 w-full border-gray-800 border-2"
         name="request"
@@ -64,32 +68,34 @@
     />
 
     <!-- SideTrip -->
-    <button
-      class="flex flex-row justify-start items-center space-x-2 mt-8 py-2 text-sm font-semibold bg-yellow-100 rounded-xl shadow-lg w-auto pl-2"
-      @click="onAddSideTrip"
-    >
-      <p>Side Trip:</p>
-      <p>{{ sideTripsCounter }}</p>
-      <svg-icon :name="'circleplus'" />
-    </button>
-    <div v-for="(item, index) in sideTrips" :key="index">
-      <div class="flex flex-row justify-start items-center mt-3">
-        <p class="mr-2 mt-1 text-base">{{ index + 1 }}.</p>
-        <textarea
-          class="background-gray-100 rounded-lg shadow-md mt-2 px-2 py-1 w-full border-gray-800 border-2"
-          v-model="item.notes"
-          name="sidetrip"
-          id="sidetrip"
-          cols="30"
-          rows="2"
-        ></textarea>
-        <button
-          type="button"
-          @click="(index) => sideTrips.splice(index, 1)"
-          class="rounded-full hover:bg-gray-600 hover:bg-opacity-25 p-2 focus:outline-none text-gray-600 transition duration-200"
-        >
-          <svg-icon name="x" class="h-6 w-6 -space-x-3" />
-        </button>
+    <div v-if="!isDeliveryLocation">
+      <button
+        class="flex flex-row justify-start items-center space-x-2 mt-8 py-2 text-sm font-semibold bg-yellow-100 rounded-xl shadow-lg w-auto pl-2"
+        @click="onAddSideTrip"
+      >
+        <p>Side Trip:</p>
+        <p>{{ sideTripsCounter }}</p>
+        <svg-icon :name="'circleplus'" />
+      </button>
+      <div v-for="(item, index) in sideTrips" :key="index">
+        <div class="flex flex-row justify-start items-center mt-3">
+          <p class="mr-2 mt-1 text-base">{{ index + 1 }}.</p>
+          <textarea
+            class="background-gray-100 rounded-lg shadow-md mt-2 px-2 py-1 w-full border-gray-800 border-2"
+            v-model="item.notes"
+            name="sidetrip"
+            id="sidetrip"
+            cols="30"
+            rows="2"
+          ></textarea>
+          <button
+            type="button"
+            @click="(index) => sideTrips.splice(index, 1)"
+            class="rounded-full hover:bg-gray-600 hover:bg-opacity-25 p-2 focus:outline-none text-gray-600 transition duration-200"
+          >
+            <svg-icon name="x" class="h-6 w-6 -space-x-3" />
+          </button>
+        </div>
       </div>
     </div>
 
@@ -133,7 +139,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, watchEffect, computed } from 'vue'
+import { reactive, toRefs, watchEffect, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import DisplayLocation from '../components/DisplayLocation'
@@ -170,6 +176,10 @@ export default {
           },
         },
     )
+    const isDeliveryLocation = computed(
+      () => store.state.orders.currentOrder.items.length - 1 == props.id,
+    )
+
     const state = reactive({
       location: item.value.location,
       contactName: item.value.contactName,
@@ -181,6 +191,15 @@ export default {
     })
     const sideTripsCounter = computed(() => state.sideTrips.length)
     const status = computed(() => store.state.orders.currentOrder.status)
+
+    onMounted(() => {
+      console.log(
+        'ItemEdit:',
+        props.id,
+        store.state.orders.currentOrder.items.length - 1,
+        isDeliveryLocation.value,
+      )
+    })
 
     watchEffect(() => {
       if (store.state.orders.tmpSubmitedLocation) {
@@ -207,6 +226,7 @@ export default {
       status,
       onAddSideTrip,
       sideTripsCounter,
+      isDeliveryLocation,
     }
   },
 }

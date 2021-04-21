@@ -112,7 +112,11 @@ export default {
     setCurrentOrderItems(state, payload) {
       // id:-1 插入一个新Item
       if (payload.id == -1) {
-        state.currentOrder.items.push(payload.item)
+        state.currentOrder.items.splice(
+          state.currentOrder.items.length - 1,
+          0,
+          payload.item,
+        )
       } else {
         // 正常更新Item
         state.currentOrder.items[payload.id] = payload.item
