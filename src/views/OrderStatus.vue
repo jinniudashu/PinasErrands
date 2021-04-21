@@ -6,7 +6,7 @@
         v-if="status === 'confirmed'"
         class="flex flex-row justify-start  ml-3 mt-3 "
       >
-        <img class="w-16" src="@/assets/assigned.svg" alt="" />
+        <img class="w-16" :src="require('@/assets/assigned.svg')" alt="" />
         <p class="mt-2 text-sm">Rider's current location...</p>
       </div>
     </router-link>
