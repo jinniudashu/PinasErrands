@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, watchEffect, computed, onMounted } from 'vue'
+import { reactive, toRefs, watchEffect, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import DisplayLocation from '../components/DisplayLocation'
@@ -191,15 +191,6 @@ export default {
     })
     const sideTripsCounter = computed(() => state.sideTrips.length)
     const status = computed(() => store.state.orders.currentOrder.status)
-
-    onMounted(() => {
-      console.log(
-        'ItemEdit:',
-        props.id,
-        store.state.orders.currentOrder.items.length - 1,
-        isDeliveryLocation.value,
-      )
-    })
 
     watchEffect(() => {
       if (store.state.orders.tmpSubmitedLocation) {

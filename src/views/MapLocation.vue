@@ -178,8 +178,13 @@ export default {
     }
 
     function submitLocation() {
+      let address = state.location.formatted_address.replace(
+        ', 2600 Benguet, Philippines',
+        '',
+      )
+      address = address.replace(', Benguet, Philippines', '')
       let location = {
-        address: state.location.formatted_address,
+        address: address,
         lat: state.location.geometry.location.lat(),
         lng: state.location.geometry.location.lng(),
       }

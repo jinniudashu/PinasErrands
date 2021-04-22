@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { watchEffect, computed } from 'vue'
+import { computed } from 'vue'
 import { uploadImage, deleteImage } from '@/modules/utils/handleStorage'
 
 export default {
@@ -55,10 +55,6 @@ export default {
   emit: ['uploadImg', 'delImg'],
   setup(props, context) {
     const picturesCounter = computed(() => props.attachment?.length || 0)
-
-    watchEffect(() => {
-      console.log('props:', props.userMode, props.attachment)
-    })
 
     const uploadImg = async (e) => {
       // 最多上传三张图片
