@@ -7,7 +7,8 @@
     </p>
     <div v-for="(item, index) in order?.items" :key="index">
       <p class="truncate">
-        {{ index === 0 ? 'Pick Up' : 'Delivery' }}: {{ item.location.address }}
+        {{ index === order?.items.length - 1 ? 'Delivery' : 'Pick Up' }}:
+        {{ item.location.address }}
       </p>
     </div>
     <p>Delivery Fee: P{{ order?.bills.totalAmount }}</p>

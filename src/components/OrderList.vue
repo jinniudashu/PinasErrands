@@ -7,9 +7,7 @@
             v-if="index === 0 && order.status === 'completed'"
             class="bg-yellow-400 p-1 rounded-md shadow-md h-6 text-xs fixed -mt-6"
           >
-            <router-link to="/review">
-              <p>Review</p>
-            </router-link>
+            <p>Review</p>
           </div>
           <div
             v-if="index === order.items.length - 1"

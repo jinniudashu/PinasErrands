@@ -8,12 +8,18 @@
             <p class="font-semibold">Contact Name: {{ item.contactName }}</p>
             <p class="mt-1">Contact Number: {{ item.contactPhone }}</p>
             <p class="mt-1">
-              {{ index === 0 ? 'Pick Up:' : 'Delivery:' }}
+              {{ index === order?.items.length - 1 ? 'Delivery:' : 'Pick Up:' }}
               <span>
                 {{ item.location.address }}
               </span>
             </p>
-            <p class="mt-1">Errand Request: {{ item.request }}</p>
+            <p class="mt-1">
+              {{
+                index === order?.items.length - 1
+                  ? 'Landmark:'
+                  : 'Errand Request: '
+              }}<span>{{ item.request }}</span>
+            </p>
             <div v-if="item.attachment.length > 0" class="mt-1">
               <p>
                 Attachment:
