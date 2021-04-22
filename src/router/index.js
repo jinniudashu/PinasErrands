@@ -51,9 +51,7 @@ const routes = [
     path: '/viewimage',
     name: 'ViewImage',
     component: () =>
-      import(
-        /* webpackChunkName: "sharecomponents" */ '../views/ViewImage.vue'
-      ),
+      import(/* webpackChunkName: "customer" */ '../views/ViewImage.vue'),
     props: true,
     meta: {
       requiresAuth: true,
@@ -82,9 +80,7 @@ const routes = [
     path: '/riderlocation',
     name: 'RiderLocation',
     component: () =>
-      import(
-        /* webpackChunkName: "sharecomponents" */ '../views/RiderLocation.vue'
-      ),
+      import(/* webpackChunkName: "customer" */ '../views/RiderLocation.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -93,7 +89,7 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () =>
-      import(/* webpackChunkName: "sharecomponents" */ '../views/Profile.vue'),
+      import(/* webpackChunkName: "customer" */ '../views/Profile.vue'),
     meta: {
       requiresAuth: true,
     },
