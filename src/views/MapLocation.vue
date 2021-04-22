@@ -106,7 +106,6 @@ export default {
       })
       marker.addListener('dragend', () => {
         let location = marker.getPosition()
-        console.log(location)
         map.setCenter(location)
         getAddresses(location)
         map.setZoom(18)
@@ -128,6 +127,7 @@ export default {
         let place = autocomplete.getPlace()
         if (place) {
           state.address = place.formatted_address
+          state.location = place
           map.setCenter(place.geometry.location)
           marker.setPosition(place.geometry.location)
         }
@@ -142,7 +142,6 @@ export default {
               state.addresses = results
               state.location = results[0]
               state.address = results[0].formatted_address
-              console.log('MapLocation:', state.location)
             } else {
               window.alert('No results found')
             }
@@ -185,6 +184,7 @@ export default {
         lng: state.location.geometry.location.lng(),
       }
       store.commit('orders/setTmpSubmitedLocation', location)
+      console.log('submit:', store.state.orders.tmpSubmitedLocation)
       router.go(-1)
     }
 
