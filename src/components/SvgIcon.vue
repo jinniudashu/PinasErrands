@@ -443,7 +443,6 @@
   <!-- 21 apply -->
   <svg
     v-else-if="name === 'apply'"
-    class="w-48 h-48"
     width="217"
     height="260"
     viewBox="0 0 217 260"
@@ -866,7 +865,6 @@
   <!-- 22 assigned -->
   <svg
     v-else-if="name === 'assigned'"
-    class="w-48 h-48"
     width="300"
     height="300"
     viewBox="0 0 300 300"
@@ -1249,7 +1247,6 @@
   <!-- 24 completed -->
   <svg
     v-else-if="name === 'completed'"
-    class="w-48 h-48"
     width="211"
     height="220"
     viewBox="0 0 211 220"
