@@ -54,6 +54,7 @@
             />
             <div class="flex mr-2 ">
               <button
+                id="sign-in-button"
                 v-if="timer === 0 || timer === 60"
                 @click="submitPhoneNumberAuth"
                 class="text-blue-400 focus: outline-none"
@@ -66,7 +67,6 @@
           <!-- 提交按钮 -->
           <button
             @click="submitPhoneNumberAuthCode"
-            id="sign-in-button"
             class=" mt-4 w-full p-2 bg-yellow-500 text-white font-semibold text-center rounded shadow-lg hover:bg-yellow-400"
           >
             Sign in
@@ -118,6 +118,7 @@ export default {
     })
 
     const submitPhoneNumberAuth = () => {
+      let phoneNumber = userPhoneNumber.value
       // This function runs when the 'sign-in-button' is clicked
       // Takes the value from the 'phoneNumber' input and sends SMS to that phone number
       firebase
@@ -126,10 +127,7 @@ export default {
         .then(() => {
           firebase
             .auth()
-            .signInWithPhoneNumber(
-              userPhoneNumber.value,
-              window.recaptchaVerifier,
-            )
+            .signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
             .then((confirmationResult) => {
               window.confirmationResult = confirmationResult
               inputVerifyCode.value.focus()

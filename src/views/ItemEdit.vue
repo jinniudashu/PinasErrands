@@ -69,14 +69,19 @@
 
     <!-- SideTrip -->
     <div v-if="!isDeliveryLocation">
-      <button
-        class="flex flex-row justify-start items-center space-x-2 mt-8 py-2 text-sm font-semibold bg-yellow-100 rounded-xl shadow-lg w-auto pl-2"
-        @click="onAddSideTrip"
-      >
-        <p>Side Trip:</p>
-        <p>{{ sideTripsCounter }}</p>
-        <svg-icon :name="'circleplus'" />
-      </button>
+      <div class="flex flex-row justify-start space-x-3 items-center mt-8 ">
+        <button
+          class="flex flex-row justify-start items-center space-x-2 py-2 text-sm font-semibold bg-yellow-100 rounded-xl shadow-lg w-64 pl-2"
+          @click="onAddSideTrip"
+        >
+          <p>Side Trip:</p>
+          <p>{{ sideTripsCounter }}</p>
+          <svg-icon :name="'circleplus'" />
+        </button>
+        <p class="text-xs text-gray-600">
+          Want anything done for you within 100 meters of the pick up address?
+        </p>
+      </div>
       <div v-for="(item, index) in sideTrips" :key="index">
         <div class="flex flex-row justify-start items-center mt-3">
           <p class="mr-2 mt-1 text-base">{{ index + 1 }}.</p>

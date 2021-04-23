@@ -6,7 +6,7 @@
     <div class="-mt-8">
       <banner />
     </div>
-    <div class="flex flex-row justify-between items-center px-6 mt-1">
+    <div class="flex flex-row justify-between items-center px-6 mt-3">
       <img
         class=" cursor-pointer"
         @click="newErrend"
