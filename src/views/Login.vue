@@ -56,8 +56,8 @@
               <button
                 id="sign-in-button"
                 v-if="timer === 0 || timer === 60"
-                @click="submitPhoneNumberAuth"
                 class="text-blue-400 focus: outline-none"
+                @click="submitPhoneNumberAuth"
               >
                 Get code
               </button>
@@ -104,10 +104,7 @@ export default {
       // Calls submitPhoneNumberAuth() when the captcha is verified
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
         'sign-in-button',
-        {
-          size: 'invisible',
-          callback: () => submitPhoneNumberAuth(),
-        },
+        { size: 'invisible' },
       )
     })
 
@@ -145,6 +142,11 @@ export default {
             .catch((error) => {
               console.log('无效号码', error)
               // 弹出警告：无效号码
+              console.log(
+                'phoneNumber & recaptchaVerifier:',
+                phoneNumber,
+                window.recaptchaVerifier,
+              )
               triggerToast('Invalid phone number')
             })
         })

@@ -20,6 +20,7 @@ db.settings({ timestampsInSnapshots: true })
 
 export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp()
 
+firebase.auth().languageCode = 'en'
 export const auth = firebase.auth()
 
 export const storage = firebase.storage()
