@@ -1,17 +1,20 @@
 <template>
   <div class="bg-gray-100 min-h-screen">
     <navigation-bar />
-    <div v-if="status === 'confirmed'" class="flex justify-start  ">
-      <router-link to="/riderlocation">
-        <div class="flex flex-row justify-start  ml-3 mt-3 w-16 h-16">
-          <svg-icon class="" name="assigned" />
+    <router-link to="/riderlocation">
+      <div
+        v-if="status === 'confirmed'"
+        class="flex justify-start space-x-2 mt-3"
+      >
+        <div class="ml-3 w-16 h-16">
+          <svg-icon name="assigned" />
         </div>
-        <p class="mt-2 text-sm">Rider's current location...</p>
-      </router-link>
-    </div>
+        <p class="text-sm mt-2">Rider's current location...</p>
+      </div>
+    </router-link>
     <div class="flex flex-col items-center mt-10  mx-4 ">
       <div
-        class="container mx-auto flex justify-center items-center w-40 h-40"
+        class="container mx-auto flex justify-center items-center w-36 h-36"
         @click="toRiderLocation"
       >
         <svg-icon :name="status" />

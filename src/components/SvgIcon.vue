@@ -443,8 +443,6 @@
   <!-- 21 apply -->
   <svg
     v-else-if="name === 'apply'"
-    width="217"
-    height="260"
     viewBox="0 0 217 260"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -865,8 +863,6 @@
   <!-- 22 assigned -->
   <svg
     v-else-if="name === 'assigned'"
-    width="300"
-    height="300"
     viewBox="0 0 300 300"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -994,9 +990,7 @@
   <!-- 23 confirmed -->
   <svg
     v-else-if="name === 'confirmed'"
-    width="260"
-    height="172"
-    viewBox="0 0 260 172"
+    viewBox="0 0 250 172"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -1247,8 +1241,6 @@
   <!-- 24 completed -->
   <svg
     v-else-if="name === 'completed'"
-    width="211"
-    height="220"
     viewBox="0 0 211 220"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
