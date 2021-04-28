@@ -12,36 +12,52 @@
         Enter your mobile number to continue
       </div>
       <div class="flex justify-center">
-        <div class="w-60 flex flex-col justify-center">
+        <div class="w-64  text-sm flex flex-col justify-center">
           <!-- 输入手机号码 -->
           <div class="mt-8 flex">
             <div
-              class="py-1 px-1 bg-gray-100 w-20 rounded-lg shadow-lg flex items-center"
+              class="px-1 w-full flex justify-around items-center bg-gray-100 rounded-lg shadow-lg border border-gray-500 focus: border-yellow-400"
             >
               <img
                 class="ml-1 h-4 w-6"
                 alt="Google Logo"
                 src="../assets/philippines-flag-icon-64.png"
               />
-              <div class="ml-2 text-gray-400">
+              <div class="ml-1 text-gray-400">
                 +63
               </div>
+              <input
+                type="tel"
+                id="phoneNumber"
+                size="10"
+                minlength="10"
+                maxlength="10"
+                placeholder="9*********"
+                v-model="phoneNumber"
+                ref="inputPhoneNumber"
+                class=" text-gray-700 bg-gray-100 w-24 py-2 px-1 focus: border-none outline-none"
+              />
+              <div>
+                <button
+                  v-if="timer === 0 || timer === 60"
+                  id="sign-in-button"
+                  class="focus: outline-none"
+                  :class="
+                    phoneNumberIsAvailable ? 'text-blue-400' : 'text-gray-400'
+                  "
+                  @click="submitPhoneNumberAuth"
+                  :disabled="!phoneNumberIsAvailable"
+                >
+                  Get code
+                </button>
+                <div v-else class="text-gray-400">{{ timer }}s</div>
+              </div>
             </div>
-            <input
-              type="tel"
-              id="phoneNumber"
-              size="10"
-              minlength="10"
-              maxlength="10"
-              placeholder="9*********"
-              v-model="phoneNumber"
-              ref="inputPhoneNumber"
-              class="block text-gray-700 bg-gray-100 w-40 ml-1 p-2 rounded-lg shadow-lg border border-gray-500 focus: border-yellow-400 outline-none"
-            />
           </div>
+
           <!-- 输入手机校验码 -->
           <div
-            class="mt-4 px-2 w-full flex justify-between items-center bg-gray-100 rounded-lg shadow-lg border border-gray-500 focus: border-yellow-400"
+            class=" text-sm mt-4 px-2 w-full flex justify-center items-center bg-gray-100 rounded-lg shadow-lg border border-gray-500 focus: border-yellow-400"
           >
             <input
               type="tel"
@@ -52,17 +68,6 @@
               ref="inputVerifyCode"
               class="w-28 p-2 text-gray-700 bg-gray-100 border focus: border-none outline-none"
             />
-            <div class="flex mr-2 ">
-              <button
-                id="sign-in-button"
-                v-if="timer === 0 || timer === 60"
-                class="text-blue-400 focus: outline-none"
-                @click="submitPhoneNumberAuth"
-              >
-                Get code
-              </button>
-              <div v-else class="text-gray-400">{{ timer }}s</div>
-            </div>
           </div>
           <!-- 提交按钮 -->
           <button
@@ -97,6 +102,9 @@ export default {
     const inputPhoneNumber = ref(null)
     const inputVerifyCode = ref(null)
     const showToast = ref(false)
+    const phoneNumberIsAvailable = computed(() =>
+      /^\d{10}$/.test(state.phoneNumber),
+    )
 
     onMounted(() => {
       inputPhoneNumber.value.focus()
@@ -182,6 +190,7 @@ export default {
       inputPhoneNumber,
       inputVerifyCode,
       showToast,
+      phoneNumberIsAvailable,
     }
   },
 }

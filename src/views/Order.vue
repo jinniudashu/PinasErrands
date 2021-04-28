@@ -5,16 +5,16 @@
       <order-items :items="order.items" />
       <!-- Add Errand -->
       <router-link :to="'/itemedit/-1'">
-        <div class="flex flex-row justify-start items-center space-x-3 my-8 ">
-          <div
-            class="flex flex-row justify-start items-center space-x-2 py-2 text-lg font-semibold bg-yellow-100 rounded-xl shadow-lg w-52 pl-2"
-          >
-            <svg-icon :name="'circleplus'" />
-            <p>Errand Item</p>
-          </div>
+        <div class="flex flex-col justify-start space-y-3 my-8 ">
           <p class="text-xs text-gray-600">
             Want anything done somewhere else?
           </p>
+          <div
+            class="flex flex-row justify-center items-center space-x-2 py-2 text-lg font-semibold bg-yellow-100 rounded-xl shadow-lg w-auto pl-2"
+          >
+            <svg-icon :name="'circleplus'" />
+            <p>ADD ERRAND REQUEST</p>
+          </div>
         </div>
       </router-link>
       <!-- Delivery Fee -->

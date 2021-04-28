@@ -1,6 +1,8 @@
 <template>
   <navigation-bar>
-    <p class="text-gray-800 text-base font-semibold">Errand</p>
+    <p class="text-gray-800 text-base font-semibold">
+      {{ isDeliveryLocation ? 'Delivery' : 'Pick Up' }}
+    </p>
     &nbsp;
     <p class="text-yellow-400 text-base font-semibold">Details</p>
   </navigation-bar>
@@ -14,7 +16,7 @@
     <!-- Contacts -->
     <div class="text-gray-800 mt-4 ">
       <label class="text-sm font-semibold" for="contactName"
-        >Name of Person / Establishment</label
+        >CONTACT PERSON / ESTABLISHMENT ADDRESS</label
       >
       <input
         class="background-gray-100 rounded-lg shadow-md px-2 py-1 w-full border-gray-800 border-2"
@@ -25,8 +27,8 @@
     </div>
     <div class="text-gray-800 mt-4">
       <label class="text-sm font-semibold" for="contactPhone"
-        >Mobile Number ({{
-          isDeliveryLocation ? 'Required' : 'Optional'
+        >PICKUP CONTACT INFORMATION ({{
+          isDeliveryLocation ? 'REQUIRED' : 'OPTIONAL'
         }})</label
       >
       <div
@@ -69,18 +71,18 @@
 
     <!-- SideTrip -->
     <div v-if="!isDeliveryLocation">
-      <div class="flex flex-row justify-start space-x-3 items-center mt-8 ">
-        <button
-          class="flex flex-row justify-start items-center space-x-2 py-2 text-sm font-semibold bg-yellow-100 rounded-xl shadow-lg w-64 pl-2"
-          @click="onAddSideTrip"
-        >
-          <p>Side Trip:</p>
-          <p>{{ sideTripsCounter }}</p>
-          <svg-icon :name="'circleplus'" />
-        </button>
+      <div class="flex flex-col justify-start space-y-3 mt-8 ">
         <p class="text-xs text-gray-600">
           Want anything done for you within 100 meters of the pick up address?
         </p>
+        <button
+          class="flex flex-row justify-center items-center space-x-2 py-2 text-sm font-semibold bg-yellow-100 rounded-xl shadow-lg w-auto pl-2"
+          @click="onAddSideTrip"
+        >
+          <svg-icon :name="'circleplus'" />
+          <p>Side Trip:</p>
+          <p>{{ sideTripsCounter }}</p>
+        </button>
       </div>
       <div v-for="(item, index) in sideTrips" :key="index">
         <div class="flex flex-row justify-start items-center mt-3">

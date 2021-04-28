@@ -4,7 +4,7 @@
   >
     <svg-icon :name="'pin'" />
     <div class="flex flex-col items-start px-2">
-      <p class="text-sm font-semibold">Location</p>
+      <p class="text-sm font-semibold">Input Location</p>
       <p class="text-xs">
         {{ location.address }}
       </p>
