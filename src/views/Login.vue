@@ -72,7 +72,13 @@
           <!-- 提交按钮 -->
           <button
             @click="submitPhoneNumberAuthCode"
-            class=" mt-4 w-full p-2 bg-yellow-500 text-white font-semibold text-center rounded shadow-lg hover:bg-yellow-400"
+            :disabled="!signInIsAvailable"
+            class="mt-4 w-full p-2 text-white font-semibold text-center rounded shadow-lg "
+            :class="
+              signInIsAvailable
+                ? 'bg-yellow-500 hover:bg-yellow-400'
+                : 'bg-gray-300'
+            "
           >
             Sign in
           </button>
@@ -105,6 +111,7 @@ export default {
     const phoneNumberIsAvailable = computed(() =>
       /^\d{10}$/.test(state.phoneNumber),
     )
+    const signInIsAvailable = computed(() => /^\d{6}$/.test(state.verifyCode))
 
     onMounted(() => {
       inputPhoneNumber.value.focus()
@@ -191,6 +198,7 @@ export default {
       inputVerifyCode,
       showToast,
       phoneNumberIsAvailable,
+      signInIsAvailable,
     }
   },
 }
