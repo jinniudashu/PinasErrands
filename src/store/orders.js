@@ -68,7 +68,6 @@ export default {
       let sideTripsCounter = state.currentOrder.items
         .map((item) => item.sideTrips.length)
         .reduce((acc, cur) => acc + cur)
-      console.log('total side trips', sideTripsCounter)
 
       // 生成账单明细
       let details = await getDeliveryBills(locations, sideTripsCounter)
