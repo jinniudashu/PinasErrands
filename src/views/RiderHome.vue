@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { computed, reactive, toRefs, watchEffect } from 'vue'
+import { computed, reactive, toRefs, watchEffect, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import ReviewStar from '../components/ReviewStar.vue'
@@ -124,6 +124,11 @@ export default {
       state.rides = rider.value?.rides
     })
 
+    watch(notifiesCounter, (newCount, oldCount) => {
+      console.log('newCount:', newCount - oldCount)
+      if (newCount > oldCount) play()
+    })
+
     function onClickNotifies() {
       router.push('/riderorderlist')
     }
@@ -137,6 +142,11 @@ export default {
       console.log('editAvatar:', url)
     }
 
+    function play() {
+      var audio = new Audio(require('@/assets/audio_success.mp3'))
+      audio.play()
+    }
+
     return {
       notifiesCounter,
       ...toRefs(state),
@@ -144,6 +154,7 @@ export default {
       onToggleDuty,
       onDuty,
       editAvatar,
+      play,
     }
   },
 }

@@ -6,6 +6,7 @@ export default {
   state: {
     // 当前用户的所有在执行订单
     orders: [],
+
     // 当前订单
     currentOrder: {
       items: [
@@ -48,8 +49,25 @@ export default {
         details: [],
       },
     },
-    // 当前提交的位置
-    tmpSubmitedLocation: null,
+
+    // 当前订单项目
+    currentItem: {
+      location: {
+        address: '',
+        lat: 0,
+        lng: 0,
+      },
+      contactName: '',
+      contactPhone: '',
+      request: '',
+      attachment: [],
+      sideTrips: [],
+      schedule: {
+        isScheduled: false,
+        time: null,
+      },
+    },
+
     // 订单通知
     orderNotifies: [],
   },
@@ -126,8 +144,13 @@ export default {
       state.currentOrder.bills.totalDistance = payload.totalDistance
       state.currentOrder.bills.details = payload.details
     },
-    setTmpSubmitedLocation(state, location) {
-      state.tmpSubmitedLocation = location
+    setCurrentItemLocation(state, location) {
+      if (location) {
+        state.currentItem.location = location
+      }
+    },
+    setCurrentItem(state, payload) {
+      state.currentItem = payload
     },
     setOrderNotifies(state, payload) {
       state.orderNotifies = payload

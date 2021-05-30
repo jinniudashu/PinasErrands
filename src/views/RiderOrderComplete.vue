@@ -6,11 +6,64 @@
     <div class="mx-4 mt-3">
       <div>
         <div
-          class="bg-gray-50 py-3 pl-2 mt-3 rounded-xl shadow-lg flex flex-row justify-start space-x-2"
+          class="bg-gray-50 mt-3 p-2 w-full rounded-xl shadow-lg text-sm"
+          @click="isActivate = !isActivate"
         >
-          <span class="font-semibold">ADDRESS:</span>
-          <span class="text-sm"> {{ address }}</span>
+          <div v-if="isActivate">
+            <div class="flex flex-row justify-between">
+              <p class="font-semibold">
+                Contact Name:
+                {{ order?.items[order?.items.length - 1].contactName }}
+              </p>
+              <div class="text-gray-400 mr-2">
+                <svg-icon :name="'chevron-up'" />
+              </div>
+            </div>
+            <p class="mt-1">
+              Contact Number:
+              {{ order?.items[order?.items.length - 1].contactPhone }}
+            </p>
+            <p class="mt-1">
+              Delivery:
+              <span>
+                {{ order?.items[order?.items.length - 1].location.address }}
+              </span>
+            </p>
+            <p class="mt-1">
+              Landmark:
+              <span>{{ order?.items[order?.items.length - 1].request }}</span>
+            </p>
+            <div
+              v-if="order?.items[order?.items.length - 1].attachment.length > 0"
+              class="mt-1"
+            >
+              <p>
+                Attachment:
+              </p>
+              <div
+                v-for="image in order?.items[order?.items.length - 1]
+                  .attachment"
+                :key="image"
+              >
+                <div class="container relative">
+                  <img class="w-full h-auto p-2" :src="image" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <div class="flex flex-row justify-between">
+              <p class="font-semibold">
+                Contact Name:
+                {{ order?.items[order?.items.length - 1].contactName }}
+              </p>
+              <div class="text-gray-400 mr-2">
+                <svg-icon :name="'chevron-down'" />
+              </div>
+            </div>
+          </div>
         </div>
+
         <div
           class="bg-gray-50 py-3 pl-2 mt-3 rounded-xl shadow-lg flex flex-row justify-start space-x-2"
         >
@@ -68,6 +121,7 @@ export default {
       address: targets.value[targets.value.length - 1].address,
       // 到目的地时间
       time: 'Calculating...',
+      isActivate: false,
     })
 
     const { coords } = useGeolocation()

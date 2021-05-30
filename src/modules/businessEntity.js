@@ -68,8 +68,6 @@ export const getDeliveryBills = async (locations, sideTripsCounter) => {
     details.push(sideTripFeeDetail)
   }
 
-  console.log('detail', details)
-
   return details
 }
 

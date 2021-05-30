@@ -286,6 +286,39 @@
     <line x1="5" y1="22.5" x2="23" y2="22.5" stroke="white" />
   </svg>
 
+  <!-- 13 chevron-down -->
+  <svg
+    v-else-if="name === 'chevron-down'"
+    class="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M19 9l-7 7-7-7"
+    ></path>
+  </svg>
+
+  <!-- 14 chevron-up -->
+  <svg
+    v-else-if="name === 'chevron-up'"
+    class="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M5 15l7-7 7 7"
+    ></path>
+  </svg>
   <!-- 16 verticalconnection -->
   <svg
     v-else-if="name === 'verticalconnection'"

@@ -38,14 +38,14 @@ const routes = [
     },
   },
   {
-    path: '/itemedit/:id',
+    path: '/itemedit',
     name: 'ItemEdit',
     component: () =>
       import(/* webpackChunkName: "customer" */ '../views/ItemEdit.vue'),
-    props: true,
+    // props: true,
     meta: {
       requiresAuth: true,
-      keepAlive: true,
+      keepAlive: false,
     },
   },
   {
@@ -157,11 +157,6 @@ const router = createRouter({
 
 // 设置路由守卫
 router.beforeEach((to, from, next) => {
-  // 创建新订单时，先清空全局临时变量
-  if (from.name === 'Order' && to.name === 'ItemEdit') {
-    store.commit('orders/setTmpSubmitedLocation', null)
-  }
-
   // 判断登录状态再route
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const currentUser = store.state.user.user

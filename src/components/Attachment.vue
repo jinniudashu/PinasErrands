@@ -52,7 +52,7 @@ import { uploadImage, deleteImage } from '@/modules/utils/handleStorage'
 
 export default {
   props: { attachment: Array, userMode: String },
-  emit: ['uploadImg', 'delImg'],
+  emits: ['uploadImg', 'delImg'],
   setup(props, context) {
     const picturesCounter = computed(() => props.attachment?.length || 0)
 

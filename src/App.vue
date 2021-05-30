@@ -1,4 +1,5 @@
 <template>
+  <!-- <router-view /> -->
   <router-view v-slot="{ Component }">
     <keep-alive>
       <component :is="Component" v-if="$route.meta.keepAlive" />
@@ -12,14 +13,13 @@ import { onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { auth } from '@/firebase'
+import { Loader } from '@googlemaps/js-api-loader'
 import {
   getUserRoleById,
   initRiderStatus,
   initMyOrders,
   getOrderById,
 } from '@/modules/utils/handleData'
-
-import { Loader } from '@googlemaps/js-api-loader'
 
 const loader = new Loader({
   apiKey: process.env.VUE_APP_GOOGLEAPIKEY,

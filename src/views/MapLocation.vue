@@ -60,8 +60,13 @@ export default {
       const initLocation = JSON.parse(process.env.VUE_APP_INITLOCATION)
       // 1、获得本机位置，失败则用系统默认初始位置initLocation
       try {
-        const location =
-          store.state.orders.tmpSubmitedLocation || (await myLocation())
+        var location
+        if (store.state.orders.currentItem.location.address) {
+          location = store.state.orders.currentItem.location
+        } else {
+          location = await myLocation()
+        }
+
         initLocation.lat = location.lat
         initLocation.lng = location.lng
       } catch (err) {
@@ -188,8 +193,7 @@ export default {
         lat: state.location.geometry.location.lat(),
         lng: state.location.geometry.location.lng(),
       }
-      store.commit('orders/setTmpSubmitedLocation', location)
-      console.log('submit:', store.state.orders.tmpSubmitedLocation)
+      store.commit('orders/setCurrentItemLocation', location)
       router.go(-1)
     }
 
